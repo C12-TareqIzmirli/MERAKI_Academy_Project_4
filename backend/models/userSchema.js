@@ -5,8 +5,8 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true },
   phone: { type: Number, required: true },
   password: { type: String, required: true },
-  application: { type: mongoose.Schema.Types.ObjectId, ref: "Application" },
   role: { type: mongoose.Schema.Types.ObjectId, ref: "Role" },
+  application: { type: mongoose.Schema.Types.ObjectId, ref: "Application" },
   job: { type: mongoose.Schema.Types.ObjectId, ref: "Job" },
 });
 

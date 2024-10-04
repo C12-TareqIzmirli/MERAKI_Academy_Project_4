@@ -1,9 +1,10 @@
 const userModel = require("../models/userSchema");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const express = require("express");
 
 const register = (req, res) => {
-  const { userName, email, phone, password, role, job, application } = req.body;
+  const { userName, email, phone, password, role } = req.body;
 
   const newUser = new userModel({
     userName,
@@ -11,24 +12,30 @@ const register = (req, res) => {
     phone,
     password,
     role,
-    job,
-    application,
   }).populate("role");
 
+  // console.log(newUser);
   newUser
     .save()
-    .then((response) => {
+    .then((result) => {
       res.status(201).json({
         sucsess: true,
         message: "Account Created Successfully",
-        User: response,
+        user: result,
       });
     })
     .catch((err) => {
-      res.status(500).json({
-        sucsess: false,
-        message: "Server Error",
-      });
+      if (err.keyPattern) {
+        res.status(409).json({
+          sucsess: false,
+          message: "The email already exists",
+        });
+      } else {
+        res.status(500).json({
+          sucsess: false,
+          message: "Server Error",
+        });
+      }
     });
 };
 
@@ -48,8 +55,6 @@ const login = async (req, res) => {
           email: user.email,
           phone: user.phone,
           role: user.role,
-          job: user.job,
-          application: user.application,
         };
         const options = "10h";
 
