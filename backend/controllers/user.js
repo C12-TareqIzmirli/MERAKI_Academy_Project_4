@@ -1,13 +1,10 @@
-const userModel = require("../models/userSchema");
-const jwt = require("jsonwebtoken");
+const usersModel = require("../models/userSchema");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-//const express = require("express");
-
-const signUp = (req, res) => {
+const register = (req, res) => {
   const { userName, email, phone, password, role } = req.body;
-
-  const user = new userModel({
+  const user = new usersModel({
     userName,
     email,
     phone,
@@ -17,63 +14,83 @@ const signUp = (req, res) => {
 
   user
     .save()
-    .then((response) => {
+    .then((result) => {
       res.status(201).json({
-        sucsess: true,
-        message: "Account Created",
-        user: response,
+        success: true,
+        message: `Account Created Successfully`,
+        user: result,
       });
     })
     .catch((err) => {
+      if (err.keyPattern) {
+        
+
+        return res.status(409).json({
+          success: false,
+          message: `The email already exists`,
+        });
+      }
       res.status(500).json({
-        sucsess: false,
-        message: "Server Error",
+        success: false,
+        message: `Server Error`,
+        error: err.message,
+      });
+    });
+};
+
+// This function checks user login credentials
+const login = (req, res) => {
+  const password = req.body.password;
+  const email = req.body.email.toLowerCase();
+  usersModel
+    .findOne({ email })
+    .populate("role", "-_id -__v")
+    .then(async (result) => {
+      if (!result) {
+        return res.status(403).json({
+          success: false,
+          message: `The email doesn't exist or The password you’ve entered is incorrect`,
+        });
+      }
+      try {
+        const valid = await bcrypt.compare(password, result.password);
+        if (!valid) {
+          return res.status(403).json({
+            success: false,
+            message: `The email doesn't exist or The password you’ve entered is incorrect`,
+          });
+        }
+        const payload = {
+          userId: result._id,
+          user: result.userName,
+          email: result.email,
+          phone: result.phone,
+          role: result.role,
+        };
+
+        const options = {
+          expiresIn: "9h",
+        };
+        const token = jwt.sign(payload, process.env.SECRET, options);
+        res.status(200).json({
+          success: true,
+          message: `Valid login credentials`,
+          token: token,
+        });
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: `Server Error`,
         err: err.message,
       });
     });
 };
 
-const login = async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const user = await userModel.findOne({ email }).populate("role");
-
-    if (user) {
-      const hashpass = user.password;
-      const passworEqual = await bcrypt.compare(password, hashpass);
-
-      if (passworEqual) {
-        const payload = {
-          userId: user._id,
-          userNamn: user.userName,
-          email: user.email,
-          phone: user.phone,
-          role: user.role,
-        };
-        const options = "10h";
-
-        const token = jwt.sign(payload, process.env.SECRET, options);
-        res.status(200).json({
-          sucsess: true,
-          message: "Valid Login credentials",
-          token: token,
-        });
-      } else {
-        res
-          .status(403)
-          .json(
-            "  The email doesn’t exist or the password you’ve entered is incorrect"
-          );
-      }
-    } else {
-      res.status(404).json("No user Found");
-    }
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).send(error);
-  }
+module.exports = {
+  register,
+  login,
 };
-
-module.exports = { signUp };

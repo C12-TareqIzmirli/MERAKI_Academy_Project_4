@@ -1,13 +1,15 @@
 const appllyModel = require("../models/applications");
 
 const applyForJob = (req, res) => {
-  //const applicant = req.token.userId
-  const { applicant, cv } = req.body;
+  //console.log(req.token);
+
+  const { cv } = req.body;
   const jobId = req.params.id;
   const date = new Date();
+  const applicant = req.token.userId;
 
   const newApply = new appllyModel({
-    applicant,
+    applicant: applicant,
     job: jobId,
     date,
     cv,

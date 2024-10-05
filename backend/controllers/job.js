@@ -1,19 +1,11 @@
-const { response } = require("express");
+
 const jobModel = require("../models/jobSchema");
 
 const createJob = (req, res) => {
-  const {
-    title,
-    description,
-    expiryDate,
-    image,
-    company,
-    publisher,
-    category,
-  } = req.body.toLowerCase();
+  const { title, description, expiryDate, image, company, category } = req.body;
 
   const date = new Date();
-  //const publisher = req.token.userId;
+  const publisher = req.token.userId;
 
   const job = new jobModel({
     title,
@@ -22,7 +14,7 @@ const createJob = (req, res) => {
     expiryDate,
     image,
     company,
-    publisher,
+    publisher: publisher,
     category,
   });
   console.log(job);

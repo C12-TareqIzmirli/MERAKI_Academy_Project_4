@@ -1,4 +1,6 @@
 const express = require("express");
+const authentication = require("../middleware/authentication");
+const authorization = require("../middleware/authorization");
 
 const {
   createJob,
@@ -11,7 +13,7 @@ const {
 const { createComments } = require("../controllers/comment");
 const jobRouter = express.Router();
 
-jobRouter.post("/new", createJob);
+jobRouter.post("/new", authentication, authorization("CREATE_JOB"), createJob);
 jobRouter.get("/all", getAllJobs);
 jobRouter.get("/job/:id", getJobById);
 jobRouter.get("/company/:id", getJobByCompany);

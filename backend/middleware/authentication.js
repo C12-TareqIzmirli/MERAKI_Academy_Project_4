@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { model } = require("mongoose");
+
 
 const authentication = (req, res, next) => {
   try {
@@ -29,4 +29,4 @@ const authentication = (req, res, next) => {
     });
   }
 };
-moudle.exports = authentication;
+module.exports = authentication;
