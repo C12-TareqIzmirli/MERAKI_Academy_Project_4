@@ -10,7 +10,7 @@ const createJob = (req, res) => {
     company,
     publisher,
     category,
-  } = req.body;
+  } = req.body.toLowerCase();
 
   const date = new Date();
   //const publisher = req.token.userId;
@@ -74,4 +74,64 @@ const getAllJobs = (req, res) => {
       });
     });
 };
-module.exports = { createJob, getAllJobs };
+
+const getJobById = (req, res) => {
+  const jobId = req.params.id;
+
+  jobModel
+    .findById(jobId)
+    .then((response) => {
+      if (!response) {
+        res.status(404).json({
+          success: false,
+          message: "No job with this ID",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Job Found",
+          job: response,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: err.message,
+      });
+    });
+};
+
+const getJobByCompany = (req, res) => {
+  const companyName = req.params.id;
+  console.log(req.params);
+
+  console.log(companyName);
+
+  jobModel
+    .find({ company: companyName })
+    .then((response) => {
+      if (!response) {
+        res.status(404).json({
+          success: false,
+          message: "No job for this Company",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Job Found for this company",
+          job: response,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: err.message,
+      });
+    });
+};
+
+module.exports = { createJob, getAllJobs, getJobById, getJobByCompany };
