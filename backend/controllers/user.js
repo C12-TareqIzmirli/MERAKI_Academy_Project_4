@@ -1,41 +1,35 @@
 const userModel = require("../models/userSchema");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const express = require("express");
 
-const register = (req, res) => {
+//const express = require("express");
+
+const signUp = (req, res) => {
   const { userName, email, phone, password, role } = req.body;
 
-  const newUser = new userModel({
+  const user = new userModel({
     userName,
     email,
     phone,
     password,
     role,
-  }).populate("role");
+  });
 
-  // console.log(newUser);
-  newUser
+  user
     .save()
-    .then((result) => {
+    .then((response) => {
       res.status(201).json({
         sucsess: true,
-        message: "Account Created Successfully",
-        user: result,
+        message: "Account Created",
+        user: response,
       });
     })
     .catch((err) => {
-      if (err.keyPattern) {
-        res.status(409).json({
-          sucsess: false,
-          message: "The email already exists",
-        });
-      } else {
-        res.status(500).json({
-          sucsess: false,
-          message: "Server Error",
-        });
-      }
+      res.status(500).json({
+        sucsess: false,
+        message: "Server Error",
+        err: err.message,
+      });
     });
 };
 
@@ -51,6 +45,7 @@ const login = async (req, res) => {
 
       if (passworEqual) {
         const payload = {
+          userId: user._id,
           userNamn: user.userName,
           email: user.email,
           phone: user.phone,
@@ -81,4 +76,4 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+module.exports = { signUp };
