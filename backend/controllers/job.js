@@ -1,4 +1,3 @@
-
 const jobModel = require("../models/jobSchema");
 
 const createJob = (req, res) => {
@@ -98,7 +97,7 @@ const getJobById = (req, res) => {
 
 const getJobByCompany = (req, res) => {
   const companyName = req.params.id;
-  console.log(req.params);
+  //console.log(req.params.name);
 
   console.log(companyName);
 
@@ -106,6 +105,8 @@ const getJobByCompany = (req, res) => {
     .find({ company: companyName })
     .then((response) => {
       if (!response) {
+        console.log(response);
+
         res.status(404).json({
           success: false,
           message: "No job for this Company",
@@ -126,28 +127,25 @@ const getJobByCompany = (req, res) => {
       });
     });
 };
-const getJobByCategory = (req, res) => {
-  const jobsCategory = req.params.id;
-  console.log(req.params);
+const getJobsByCategory = (req, res) => {
+  const category = req.params.id;
 
   jobModel
-    .find({ category: jobsCategory })
+    .find({ category: category })
     .then((response) => {
-      console.log(response);
       if (!response) {
         res.status(404).json({
           success: false,
-          message: "No job with this category",
+          message: "No jobs with this category",
         });
       } else {
         res.status(200).json({
           success: true,
           message: "Job Found for this category",
-          job: response,
+          jobs: response,
         });
       }
     })
-
     .catch((err) => {
       res.status(500).json({
         success: false,
@@ -156,6 +154,7 @@ const getJobByCategory = (req, res) => {
       });
     });
 };
+
 const updateJobByPublisher = (req, res) => {
   //const publisher = req.token.userId;
   const publisher = req.params.id;
@@ -194,6 +193,6 @@ module.exports = {
   getAllJobs,
   getJobById,
   getJobByCompany,
-  getJobByCategory,
   updateJobByPublisher,
+  getJobsByCategory,
 };

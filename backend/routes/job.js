@@ -7,7 +7,7 @@ const {
   getAllJobs,
   getJobById,
   getJobByCompany,
-  getJobByCategory,
+  getJobsByCategory,
   updateJobByPublisher,
 } = require("../controllers/job");
 const { createComments } = require("../controllers/comment");
@@ -17,7 +17,7 @@ jobRouter.post("/new", authentication, authorization("CREATE_JOB"), createJob);
 jobRouter.get("/all", getAllJobs);
 jobRouter.get("/job/:id", getJobById);
 jobRouter.get("/company/:id", getJobByCompany);
-jobRouter.get("/cateogry/:id", getJobByCategory);
+jobRouter.get("/cateogry/:id", getJobsByCategory);
 jobRouter.put("/job/update/:id", updateJobByPublisher);
 jobRouter.post("/comment/:id", createComments);
 
