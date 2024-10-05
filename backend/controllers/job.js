@@ -51,6 +51,7 @@ const getAllJobs = (req, res) => {
   jobModel
     .find()
     .populate("category", "-_id --v")
+    .populate("comments", "-_id")
 
     .then((response) => {
       if (response.length) {
@@ -133,5 +134,74 @@ const getJobByCompany = (req, res) => {
       });
     });
 };
+const getJobByCategory = (req, res) => {
+  const jobsCategory = req.params.id;
+  console.log(req.params);
 
-module.exports = { createJob, getAllJobs, getJobById, getJobByCompany };
+  jobModel
+    .find({ category: jobsCategory })
+    .then((response) => {
+      console.log(response);
+      if (!response) {
+        res.status(404).json({
+          success: false,
+          message: "No job with this category",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Job Found for this category",
+          job: response,
+        });
+      }
+    })
+
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: err.message,
+      });
+    });
+};
+const updateJobByPublisher = (req, res) => {
+  //const publisher = req.token.userId;
+  const publisher = req.params.id;
+  const { title, description } = req.body;
+
+  jobModel
+    .findOneAndUpdate({
+      publisher: publisher,
+      title: title,
+      description: description,
+    })
+    .then((response) => {
+      if (!response) {
+        res.status(404).json({
+          success: false,
+          message: "No job for this Publisher",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Job updated",
+          job: response,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: err.message,
+      });
+    });
+};
+module.exports = {
+  createJob,
+  getAllJobs,
+  getJobById,
+  getJobByCompany,
+  getJobByCategory,
+  updateJobByPublisher,
+};

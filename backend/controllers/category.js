@@ -46,4 +46,33 @@ const getAllCategory = (req, res) => {
     });
 };
 
-module.exports = { createCategory, getAllCategory };
+const getCategoryByName = (req, res) => {
+  const categoryName = req.params.id;
+  console.log(req.params);
+
+  categoryModel
+    .find({ title: categoryName })
+    .then((response) => {
+      if (!response) {
+        res.status(404).json({
+          success: false,
+          message: "No Category",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Category Found",
+          category: response,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: err.message,
+      });
+    });
+};
+
+module.exports = { createCategory, getAllCategory, getCategoryByName };
