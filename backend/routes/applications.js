@@ -3,8 +3,10 @@ const authentication = require("../middleware/authentication");
 
 const appRouter = express.Router();
 
-const applyForJob = require("../controllers/appiclaion");
+const { applyForJob, changeAppStatus } = require("../controllers/appiclaion");
+const { changeStatus } = require("../controllers/job");
 
 appRouter.post("/apply/:id", authentication, applyForJob);
+appRouter.post("/change/:id", changeAppStatus);
 
 module.exports = appRouter;

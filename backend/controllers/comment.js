@@ -1,13 +1,14 @@
-const { response } = require("express");
 const commentModel = require("../models/comments");
 const jobModel = require("../models/jobSchema");
-const comments = require("../models/comments");
+
 //const comments = require("../models/comments");
 
 const createComments = (req, res) => {
   const { comment } = req.body;
   const commenter = req.token.userId;
   const jobId = req.params.id;
+
+  console.log(commenter);
 
   const newComment = new commentModel({
     comment: comment,
@@ -55,7 +56,7 @@ const deleteComment = (req, res) => {
   commentModel
     .findById(commentId)
     .then((response) => {
-      console.log(response);
+      //console.log(response);
       jobModel
         .findByIdAndUpdate(
           { _id: jobId },
@@ -96,19 +97,46 @@ const deleteComment = (req, res) => {
 
 const updateComment = (req, res) => {
   const commentId = req.params.id;
-  const comment = req.body;
+  const { comment } = req.body;
+ // const jobId = req.params.jobId;
 
   commentModel
-    .findById(commentId)
+    .findByIdAndUpdate(
+      commentId,
+      { comment: comment },
+      {
+        new: true,
+      }
+    )
     .then((response) => {
-      res.status(200).json({
+      res.status(203).json({
         sucsess: true,
         message: "Comment Updated",
         comment: response,
       });
+      //   jobModel
+      //     .findByIdAndUpdate(
+      //       { _id: jobId },
+      //       { $set: { comments: comment } },
+      //       { new: true }
+      //     )
+      //     .then((result) => {
+      //       res.status(200).json({
+      //         sucsess: true,
+      //         message: "Comment Updated",
+      //         comment: result,
+      //       });
+      //     })
+      //     .catch((err) => {
+      //       res.status(500).json({
+      //         sucsess: false,
+      //         message: "Server Error",
+      //         error: err.message,
+      //       });
+      //     });
     })
     .catch((err) => {
-      res.status(201).json({
+      res.status(500).json({
         sucsess: false,
         message: "Server Error",
         error: err.message,

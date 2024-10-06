@@ -35,4 +35,30 @@ const applyForJob = (req, res) => {
     });
 };
 
-module.exports = applyForJob;
+const changeAppStatus = (req, res) => {
+  const appId = req.params.id;
+
+  appllyModel
+    .findByIdAndUpdate(appId, { status: "Reviewed" })
+    .then((response) => {
+      if (!response) {
+        res.status(200).json({
+          success: false,
+          message: "No application to Review",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Status changed",
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: err.message,
+      });
+    });
+};
+module.exports = { applyForJob, changeAppStatus };

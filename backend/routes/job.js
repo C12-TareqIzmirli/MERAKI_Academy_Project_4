@@ -11,6 +11,7 @@ const {
   updateJobByPublisher,
   getJobByName,
   deleteJobById,
+  changeStatus,
 } = require("../controllers/job");
 const {
   createComments,
@@ -31,9 +32,10 @@ jobRouter.put(
   authorization("Update_Job"),
   updateJobByPublisher
 );
-jobRouter.post("/comment/:id", createComments);
+jobRouter.post("/change/:id", changeStatus);
+jobRouter.post("/comment/:id", authentication, createComments);
 jobRouter.delete("/comment/remove/:id/:jobId", deleteComment);
-jobRouter.put("/comment/update/:id", updateComment);
+jobRouter.put("/comment/update/:id/", updateComment);
 jobRouter.delete(
   "/remove/:id",
   authentication,

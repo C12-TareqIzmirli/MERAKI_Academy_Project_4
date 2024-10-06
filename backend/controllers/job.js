@@ -252,10 +252,17 @@ const changeStatus = (req, res) => {
   jobModel
     .findByIdAndUpdate(jobId, { status: "Expierd" })
     .then((response) => {
-      res.status(200).json({
-        success: true,
-        message: "Status changed",
-      });
+      if (!response) {
+        res.status(200).json({
+          success: false,
+          message: "No job with this ID",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Status changed",
+        });
+      }
     })
     .catch((err) => {
       res.status(200).json({
@@ -275,4 +282,5 @@ module.exports = {
   getJobsByCategory,
   getJobByName,
   deleteJobById,
+  changeStatus,
 };
