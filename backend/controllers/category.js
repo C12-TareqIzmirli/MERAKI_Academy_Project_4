@@ -74,40 +74,9 @@ const getCategoryByName = (req, res) => {
       });
     });
 };
-const getAllJobForThisCategory = (req, res) => {
-  const category = req.params.id;
-  //console.log(jobsCategory);
-
-  categoryModel
-    .find({ job: category })
-    .then((response) => {
-      console.log(response);
-      if (!response) {
-        res.status(404).json({
-          success: false,
-          message: "No jobs with this category",
-        });
-      } else {
-        res.status(200).json({
-          success: true,
-          message: "Job Found for this category",
-          job: response,
-        });
-      }
-    })
-
-    .catch((err) => {
-      res.status(500).json({
-        success: false,
-        message: "Server Error",
-        error: err.message,
-      });
-    });
-};
 
 module.exports = {
   createCategory,
   getAllCategory,
   getCategoryByName,
-  getAllJobForThisCategory,
 };

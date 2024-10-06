@@ -1,17 +1,16 @@
 const express = require("express");
-
+const authentication = require("../middleware/authentication");
+const authorization = require("../middleware/authorization");
 const {
   createCategory,
   getAllCategory,
   getCategoryByName,
-  getAllJobForThisCategory,
 } = require("../controllers/category");
 
 const categoryRouter = express.Router();
 
-categoryRouter.post("/new", createCategory);
+categoryRouter.post("/new", authentication, authorization, createCategory);
 categoryRouter.get("/all", getAllCategory);
 categoryRouter.get("/name/:id", getCategoryByName);
-categoryRouter.get("/cat/:id", getAllJobForThisCategory);
 
 module.exports = categoryRouter;

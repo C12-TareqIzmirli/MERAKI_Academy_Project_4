@@ -1,15 +1,14 @@
-const { response } = require("express");
 const commentModel = require("../models/comments");
 const jobModel = require("../models/jobSchema");
 
 const createComments = (req, res) => {
-  const { comment, publisher } = req.body;
-  // const commenter = req.token.userId;
+  const { comment } = req.body;
+  const commenter = req.token.userId;
   const jobId = req.params.id;
 
   const newComment = new commentModel({
     comment: comment,
-    publisher: publisher,
+    commenter: commenter,
   });
 
   newComment
