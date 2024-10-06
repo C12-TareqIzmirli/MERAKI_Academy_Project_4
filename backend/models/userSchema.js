@@ -7,8 +7,8 @@ const userSchema = new mongoose.Schema({
   phone: { type: Number, required: true },
   password: { type: String, required: true },
   role: { type: mongoose.Schema.Types.ObjectId, ref: "Role" },
-  application: { type: mongoose.Schema.Types.ObjectId, ref: "Application" },
-  job: { type: mongoose.Schema.Types.ObjectId, ref: "Job" },
+  application: [{ type: mongoose.Schema.Types.ObjectId, ref: "Application" }],
+  //job: { type: mongoose.Schema.Types.ObjectId, ref: "Job" },
 });
 
 userSchema.pre("save", async function () {

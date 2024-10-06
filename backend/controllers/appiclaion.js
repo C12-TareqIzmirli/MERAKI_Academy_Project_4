@@ -3,7 +3,7 @@ const appllyModel = require("../models/applications");
 const applyForJob = (req, res) => {
   //console.log(req.token);
 
-  const { cv } = req.body;
+  const { attatchments, status } = req.body;
   const jobId = req.params.id;
   const date = new Date();
   const applicant = req.token.userId;
@@ -12,9 +12,11 @@ const applyForJob = (req, res) => {
     applicant: applicant,
     job: jobId,
     date,
-    cv,
+    status,
+    attatchments,
   });
 
+  //  appllyModel.find({applicant:app})
   newApply
     .save()
     .then((response) => {

@@ -75,6 +75,7 @@ const getCategoryByName = (req, res) => {
     });
 };
 
+//CRUD
 module.exports = {
   createCategory,
   getAllCategory,

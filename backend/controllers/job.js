@@ -1,18 +1,18 @@
+const { response } = require("express");
 const jobModel = require("../models/jobSchema");
 
 const createJob = (req, res) => {
-  const { title, description, expiryDate, image, company, category } = req.body;
-
-  const date = new Date();
+  const { title, description, expiryDate, image, company, status, category } =
+    req.body;
   const publisher = req.token.userId;
-
+  //   const date = new Date();
   const job = new jobModel({
     title,
     description,
-    date,
     expiryDate,
     image,
     company,
+    status,
     publisher: publisher,
     category,
   });
@@ -95,7 +95,7 @@ const getJobById = (req, res) => {
     });
 };
 
-const getJobByCompany = (req, res) => {
+const getJobsByCompany = (req, res) => {
   const companyName = req.params.id;
   //console.log(req.params.name);
 
@@ -157,11 +157,13 @@ const getJobsByCategory = (req, res) => {
 
 const updateJobByPublisher = (req, res) => {
   const publisher = req.token.userId;
+  const jobId = req.params.id;
 
   const { title, description } = req.body;
 
   jobModel
-    .findOneAndUpdate({
+    .findByIdAndUpdate({
+      jobId,
       publisher: publisher,
       title: title,
       description: description,
@@ -243,11 +245,32 @@ const deleteJobById = (req, res) => {
       });
     });
 };
+
+const changeStatus = (req, res) => {
+  const jobId = req.params.id;
+
+  jobModel
+    .findByIdAndUpdate(jobId, { status: "Expierd" })
+    .then((response) => {
+      res.status(200).json({
+        success: true,
+        message: "Status changed",
+      });
+    })
+    .catch((err) => {
+      res.status(200).json({
+        success: false,
+        message: "Server Error",
+        error: err.message,
+      });
+    });
+};
+
 module.exports = {
   createJob,
   getAllJobs,
   getJobById,
-  getJobByCompany,
+  getJobsByCompany,
   updateJobByPublisher,
   getJobsByCategory,
   getJobByName,
