@@ -11,6 +11,8 @@ const Register = () => {
 
   console.log(role);
 
+  const roleSetter = (e) => {};
+
   const signUp = () => {
     axios
       .post("http://localhost:5000/users/register", {
@@ -74,15 +76,13 @@ const Register = () => {
       </div>
 
       <div>
-        <select className="form-select">
-          <option
-            value={"6702ba9b793c1b98a784ba10"}
-            onSelect={(e) => {
-              setRole(e.target.value);
-            }}
-          >
-            Publisher
-          </option>
+        <select
+          className="form-select"
+          onChange={(e) => {
+            setRole(e.target.value);
+          }}
+        >
+          <option value={"6702ba9b793c1b98a784ba10"}>Publisher</option>
           <option value={"66ff03d084b9d7fcbdfb1f1f"}>User</option>
         </select>
       </div>
