@@ -1,23 +1,32 @@
-import React from "react";
+import React, { createContext, useState } from "react";
 import "./App.css";
 
-import Home from "./pages/Home";
-import { Routes, Route } from "react-router-dom";
+import Home from "./pages/home/Home";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import About from "./pages/About";
 import Details from "./pages/Details";
+import Navbar from "./components/Navbar";
+import Application from "./pages/Application";
+import Login from "./pages/Login/Login";
 
+export const userContext = createContext();
 const App = () => {
+  // const navigate = useNavigate();
+  const [token, setToken] = useState(localStorage.getItem("token"));
   return (
-    <div>
-      <nav>
-        <h1>Hello</h1>
-      </nav>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="about" element={<About />} />
-        <Route path="/details/:jobId" element={<Details />} />
-      </Routes>
-    </div>
+    <userContext.Provider value={{ token, setToken }}>
+      <div>
+        <Navbar />
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="login" element={<Login />} />
+          <Route path="/details/:jobId" element={<Details />} />
+          <Route path="/application/:jobId" element={<Application />} />
+        </Routes>
+      </div>
+    </userContext.Provider>
   );
 };
 
