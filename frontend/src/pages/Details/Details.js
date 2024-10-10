@@ -17,6 +17,7 @@ import {
   MDBProgress,
   MDBProgressBar,
   MDBIcon,
+  MDBTextArea,
   MDBListGroup,
   MDBListGroupItem,
 } from "mdb-react-ui-kit";
@@ -24,7 +25,9 @@ const Details = () => {
   const { token, setToken } = useContext(userContext);
   const { jobId } = useParams();
   const [job, setJob] = useState([]);
-  const [comment, setComment] = useState([]);
+  const [comment, setComment] = useState("");
+  const [allComment, setAllComment] = useState([]);
+
   const [category, setCategory] = useState();
 
   useEffect(() => {
@@ -33,7 +36,7 @@ const Details = () => {
       .then((response) => {
         console.log(response.data);
         setJob(response.data.job);
-        setComment(response.data.job.comments);
+        setAllComment(response.data.job.comments);
         setCategory(response.data.job.category.title);
       })
       .catch((err) => {});
@@ -53,24 +56,21 @@ const Details = () => {
       .then((response) => {
         console.log(response);
         console.log("Added");
-
-        // const jobComment = job.comments.map((item) => {
-        //   console.log(item.comment);
-        // });
-        // console.log(jobComment);
-        // setComment(jobComment);
+        const com = response.data.comment;
+        setAllComment([...allComment, com]);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  //console.log(comment);
+  const showComments =
+    allComment.length &&
+    allComment.map((com) => {
+      console.log(com);
 
-  const comments = comment.map((com) => {
-    return <p>{com.comment}</p>;
-  });
-  console.log(comments);
+      return <p>{com.comment}</p>;
+    });
 
   return (
     <section style={{ backgroundColor: "#eee" }}>
@@ -92,40 +92,12 @@ const Details = () => {
               <MDBCardBody className="p-0">
                 <MDBListGroup flush className="rounded-3">
                   <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                    <MDBIcon fas icon="globe fa-lg text-warning" />
-                    <MDBCardText>https://mdbootstrap.com</MDBCardText>
-                  </MDBListGroupItem>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                    <MDBIcon
-                      fab
-                      icon="github fa-lg"
-                      style={{ color: "#333333" }}
-                    />
-                    <MDBCardText>mdbootstrap</MDBCardText>
-                  </MDBListGroupItem>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                    <MDBIcon
-                      fab
-                      icon="twitter fa-lg"
-                      style={{ color: "#55acee" }}
-                    />
-                    <MDBCardText>@mdbootstrap</MDBCardText>
-                  </MDBListGroupItem>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                    <MDBIcon
-                      fab
-                      icon="instagram fa-lg"
-                      style={{ color: "#ac2bac" }}
-                    />
-                    <MDBCardText>mdbootstrap</MDBCardText>
-                  </MDBListGroupItem>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                    <MDBIcon
-                      fab
-                      icon="facebook fa-lg"
-                      style={{ color: "#3b5998" }}
-                    />
-                    <MDBCardText>mdbootstrap</MDBCardText>
+                    <Link
+                      className="btn btn-success"
+                      to={`/application/${job._id}`}
+                    >
+                      Apply Now
+                    </Link>
                   </MDBListGroupItem>
                 </MDBListGroup>
               </MDBCardBody>
@@ -192,125 +164,20 @@ const Details = () => {
             <MDBRow>
               <MDBCol md="6">
                 <MDBCard className="mb-4 mb-md-0">
-                  <MDBCardBody>
-                    <MDBCardText className="mb-4">
-                      <span className="text-primary font-italic me-1">
-                        assigment
-                      </span>{" "}
-                      Project Status
-                    </MDBCardText>
-                    <MDBCardText
-                      className="mb-1"
-                      style={{ fontSize: ".77rem" }}
-                    >
-                      Web Design
-                    </MDBCardText>
-                    <MDBProgress className="rounded">
-                      <MDBProgressBar width={80} valuemin={0} valuemax={100} />
-                    </MDBProgress>
-
-                    <MDBCardText
-                      className="mt-4 mb-1"
-                      style={{ fontSize: ".77rem" }}
-                    >
-                      Website Markup
-                    </MDBCardText>
-                    <MDBProgress className="rounded">
-                      <MDBProgressBar width={72} valuemin={0} valuemax={100} />
-                    </MDBProgress>
-
-                    <MDBCardText
-                      className="mt-4 mb-1"
-                      style={{ fontSize: ".77rem" }}
-                    >
-                      One Page
-                    </MDBCardText>
-                    <MDBProgress className="rounded">
-                      <MDBProgressBar width={89} valuemin={0} valuemax={100} />
-                    </MDBProgress>
-
-                    <MDBCardText
-                      className="mt-4 mb-1"
-                      style={{ fontSize: ".77rem" }}
-                    >
-                      Mobile Template
-                    </MDBCardText>
-                    <MDBProgress className="rounded">
-                      <MDBProgressBar width={55} valuemin={0} valuemax={100} />
-                    </MDBProgress>
-
-                    <MDBCardText
-                      className="mt-4 mb-1"
-                      style={{ fontSize: ".77rem" }}
-                    >
-                      Backend API
-                    </MDBCardText>
-                    <MDBProgress className="rounded">
-                      <MDBProgressBar width={66} valuemin={0} valuemax={100} />
-                    </MDBProgress>
-                  </MDBCardBody>
+                  <MDBCardBody>comments</MDBCardBody>
+                  {console.log(allComment)}
+                  <MDBCardBody>{showComments}</MDBCardBody>
                 </MDBCard>
-              </MDBCol>
-
-              <MDBCol md="6">
                 <MDBCard className="mb-4 mb-md-0">
-                  <MDBCardBody>
-                    <MDBCardText className="mb-4">
-                      <span className="text-primary font-italic me-1">
-                        assigment
-                      </span>{" "}
-                      Project Status
-                    </MDBCardText>
-                    <MDBCardText
-                      className="mb-1"
-                      style={{ fontSize: ".77rem" }}
-                    >
-                      Web Design
-                    </MDBCardText>
-                    <MDBProgress className="rounded">
-                      <MDBProgressBar width={80} valuemin={0} valuemax={100} />
-                    </MDBProgress>
-
-                    <MDBCardText
-                      className="mt-4 mb-1"
-                      style={{ fontSize: ".77rem" }}
-                    >
-                      Website Markup
-                    </MDBCardText>
-                    <MDBProgress className="rounded">
-                      <MDBProgressBar width={72} valuemin={0} valuemax={100} />
-                    </MDBProgress>
-
-                    <MDBCardText
-                      className="mt-4 mb-1"
-                      style={{ fontSize: ".77rem" }}
-                    >
-                      One Page
-                    </MDBCardText>
-                    <MDBProgress className="rounded">
-                      <MDBProgressBar width={89} valuemin={0} valuemax={100} />
-                    </MDBProgress>
-
-                    <MDBCardText
-                      className="mt-4 mb-1"
-                      style={{ fontSize: ".77rem" }}
-                    >
-                      Mobile Template
-                    </MDBCardText>
-                    <MDBProgress className="rounded">
-                      <MDBProgressBar width={55} valuemin={0} valuemax={100} />
-                    </MDBProgress>
-
-                    <MDBCardText
-                      className="mt-4 mb-1"
-                      style={{ fontSize: ".77rem" }}
-                    >
-                      Backend API
-                    </MDBCardText>
-                    <MDBProgress className="rounded">
-                      <MDBProgressBar width={66} valuemin={0} valuemax={100} />
-                    </MDBProgress>
-                  </MDBCardBody>
+                  <MDBTextArea
+                    label="Add comment"
+                    id="textAreaExample"
+                    rows="{4}"
+                    onChange={(e) => {
+                      setComment(e.target.value);
+                    }}
+                  />
+                  <MDBBtn onClick={addComment}>addComment</MDBBtn>
                 </MDBCard>
               </MDBCol>
             </MDBRow>

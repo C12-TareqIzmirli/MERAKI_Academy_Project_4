@@ -9,6 +9,7 @@ import {
   MDBCardText,
   MDBCardImage,
   MDBBtn,
+  MDBRipple,
 } from "mdb-react-ui-kit";
 
 const Home = () => {
@@ -36,18 +37,30 @@ const Home = () => {
       //     <Link to={`/details/${item._id}`}>More Details</Link>
       //   </div>
       // </div>
-      <div>
-        <MDBCard className="cards">
-          <MDBCardImage src={item.image} position="top" alt="..." />
-          <MDBCardBody>
-            <MDBCardTitle>{item.title}</MDBCardTitle>
-            <MDBCardText>{item.description}</MDBCardText>
-            <Link className="btn btn-primary" to={`/details/${item._id}`}>
-              More Details
-            </Link>
-          </MDBCardBody>
-        </MDBCard>
-      </div>
+
+      <MDBCard className="Container">
+        <MDBRipple
+          rippleColor="light"
+          rippleTag="div"
+          className="bg-image hover-overlay"
+        >
+          <MDBCardImage src={item.image} fluid alt="..." />
+          <a>
+            <div
+              className="mask"
+              style={{ backgroundColor: "rgba(251, 251, 251, 0.15)" }}
+            ></div>
+          </a>
+        </MDBRipple>
+        <MDBCardBody>
+          <MDBCardTitle>{item.title}</MDBCardTitle>
+          <MDBCardTitle>{item.description}</MDBCardTitle>
+
+          <Link className="btn btn-primary" to={`/details/${item._id}`}>
+            More Details
+          </Link>
+        </MDBCardBody>
+      </MDBCard>
     );
   });
   return (

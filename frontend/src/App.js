@@ -8,6 +8,7 @@ import Details from "./pages/Details/Details";
 import Navbar from "./components/Navbar";
 import Application from "./pages/Application";
 import Login from "./pages/Login/Login";
+import Register from "./pages/Register";
 
 export const userContext = createContext();
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
           <Route path="/details/:jobId" element={<Details />} />
           <Route path="/application/:jobId" element={<Application />} />
         </Routes>

@@ -1,6 +1,15 @@
 import React, { useState } from "react";
-import { Button, DropdownItem, FormControl, InputGroup } from "react-bootstrap";
+
 import axios from "axios";
+import {
+  MDBBtn,
+  MDBContainer,
+  MDBCard,
+  MDBCardBody,
+  MDBInput,
+  MDBCheckbox,
+} from "mdb-react-ui-kit";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [userName, setUserName] = useState();
@@ -30,64 +39,80 @@ const Register = () => {
       });
   };
   return (
-    <div className="container-sm content">
-      <div>
-        <label>User-Name</label>
-        <input
-          type="text"
-          className="FormControl"
-          onChange={(e) => {
-            setUserName(e.target.value);
-          }}
-        />
-      </div>
+    <MDBContainer
+      fluid
+      className="d-flex align-items-center justify-content-center bg-image"
+      style={{
+        backgroundImage:
+          "url(https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp)",
+      }}
+    >
+      <div className="mask gradient-custom-3"></div>
+      <MDBCard className="m-5" style={{ maxWidth: "600px" }}>
+        <MDBCardBody className="px-5">
+          <h2 className="text-uppercase text-center mb-5">Create an account</h2>
+          <MDBInput
+            wrapperClass="mb-4"
+            label="Your Name"
+            size="lg"
+            id="form1"
+            type="text"
+            onChange={(e) => {
+              setUserName(e.target.value);
+            }}
+          />
+          <MDBInput
+            wrapperClass="mb-4"
+            label="Your Email"
+            size="lg"
+            id="form2"
+            type="email"
+            onChange={(e) => {
+              setPhone(e.target.value);
+            }}
+          />
+          <MDBInput
+            wrapperClass="mb-4"
+            label="Phone"
+            size="lg"
+            id="form4"
+            type="phone"
+            onChange={(e) => {
+              setPhone(e.target.value);
+            }}
+          />
+          <MDBInput
+            wrapperClass="mb-4"
+            label="Password"
+            size="lg"
+            id="form3"
+            type="password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <div>
+            <select
+              className="form-select"
+              onChange={(e) => {
+                setRole(e.target.value);
+              }}
+            >
+              <option value={"6702ba9b793c1b98a784ba10"}>Publisher</option>
+              <option value={"66ff03d084b9d7fcbdfb1f1f"}>User</option>
+            </select>
+          </div>
 
-      <div>
-        <label>Email</label>
-        <input
-          type="text"
-          className="FormControl"
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-      </div>
-
-      <div>
-        <label>Phone</label>
-        <input
-          type="integer"
-          className="FormControl"
-          onChange={(e) => {
-            setPhone(e.target.value);
-          }}
-        />
-      </div>
-
-      <div>
-        <label>Password</label>
-        <input
-          type="Password"
-          className="FormControl"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
-      </div>
-
-      <div>
-        <select
-          className="form-select"
-          onChange={(e) => {
-            setRole(e.target.value);
-          }}
-        >
-          <option value={"6702ba9b793c1b98a784ba10"}>Publisher</option>
-          <option value={"66ff03d084b9d7fcbdfb1f1f"}>User</option>
-        </select>
-      </div>
-      <Button onClick={signUp}>Register</Button>
-    </div>
+          <Link
+            className="btn btn-primary btnsignup"
+            to="/login"
+            onClick={signUp}
+          >
+            Register
+          </Link>
+        </MDBCardBody>
+      </MDBCard>
+    </MDBContainer>
   );
 };
 
