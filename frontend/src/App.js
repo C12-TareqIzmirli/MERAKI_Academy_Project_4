@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar";
 import Application from "./pages/Application";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register";
+import CreateJob from "./pages/CreateJob/CreateJob";
 
 export const userContext = createContext();
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="about" element={<About />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="createJob" element={<CreateJob />} />
           <Route path="/details/:jobId" element={<Details />} />
           <Route path="/application/:jobId" element={<Application />} />
         </Routes>

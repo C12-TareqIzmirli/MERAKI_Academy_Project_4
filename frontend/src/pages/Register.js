@@ -20,8 +20,7 @@ const Register = () => {
 
   console.log(role);
 
-  const roleSetter = (e) => {};
-
+  
   const signUp = () => {
     axios
       .post("http://localhost:5000/users/register", {
@@ -68,7 +67,7 @@ const Register = () => {
             id="form2"
             type="email"
             onChange={(e) => {
-              setPhone(e.target.value);
+              setEmail(e.target.value);
             }}
           />
           <MDBInput

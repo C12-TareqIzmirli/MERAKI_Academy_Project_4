@@ -21,12 +21,14 @@ import {
   MDBListGroup,
   MDBListGroupItem,
 } from "mdb-react-ui-kit";
+
 const Details = () => {
-  const { token, setToken } = useContext(userContext);
+  const { token, setTokenm, setIsLogged, isLogged } = useContext(userContext);
   const { jobId } = useParams();
   const [job, setJob] = useState([]);
   const [comment, setComment] = useState("");
   const [allComment, setAllComment] = useState([]);
+  const [err, setError] = useState("");
 
   const [category, setCategory] = useState();
 
@@ -41,34 +43,37 @@ const Details = () => {
       })
       .catch((err) => {});
   }, []);
+  console.log(isLogged);
 
   const addComment = (req, res) => {
-    axios
-      .post(
-        `http://localhost:5000/jobs/comment/${jobId}`,
-        { comment: comment },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response);
-        console.log("Added");
-        const com = response.data.comment;
-        setAllComment([...allComment, com]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (!isLogged) {
+      setError("Login first ");
+    } else {
+      axios
+        .post(
+          `http://localhost:5000/jobs/comment/${jobId}`,
+          { comment: comment },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+          console.log("Added");
+          const com = response.data.comment;
+          setAllComment([...allComment, com]);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const showComments =
     allComment.length &&
     allComment.map((com) => {
-      console.log(com);
-
       return <p>{com.comment}</p>;
     });
 
@@ -165,7 +170,7 @@ const Details = () => {
               <MDBCol md="6">
                 <MDBCard className="mb-4 mb-md-0">
                   <MDBCardBody>comments</MDBCardBody>
-                  {console.log(allComment)}
+
                   <MDBCardBody>{showComments}</MDBCardBody>
                 </MDBCard>
                 <MDBCard className="mb-4 mb-md-0">
@@ -178,6 +183,7 @@ const Details = () => {
                     }}
                   />
                   <MDBBtn onClick={addComment}>addComment</MDBBtn>
+                  <MDBCardBody>{err}</MDBCardBody>
                 </MDBCard>
               </MDBCol>
             </MDBRow>

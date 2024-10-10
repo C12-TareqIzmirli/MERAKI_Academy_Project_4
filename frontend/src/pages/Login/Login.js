@@ -11,7 +11,7 @@ import {
   MDBInput,
   MDBIcon,
 } from "mdb-react-ui-kit";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { userContext } from "../../App";
 
 const Login = () => {
@@ -19,6 +19,8 @@ const Login = () => {
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
   const [token, setToken] = useState();
+  const navigate = useNavigate();
+
   const signIn = () => {
     axios
       .post("http://localhost:5000/users/login", {
@@ -30,6 +32,7 @@ const Login = () => {
         const token = localStorage.setItem("token", response.data.token);
         setToken(token);
         setIsLogged(true);
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);
@@ -79,7 +82,6 @@ const Login = () => {
                 </a>
               </p>
               <Link
-                to="/"
                 outline
                 className="mx-2 px-5 btn btn-primary"
                 color="white"
