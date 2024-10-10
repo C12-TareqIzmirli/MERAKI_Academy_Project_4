@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./Login.css";
 import {
   MDBBtn,
@@ -12,8 +12,10 @@ import {
   MDBIcon,
 } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
+import { userContext } from "../../App";
 
 const Login = () => {
+  const { isLogged, setIsLogged } = useContext(userContext);
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
   const [token, setToken] = useState();
@@ -27,6 +29,7 @@ const Login = () => {
         console.log(response.data);
         const token = localStorage.setItem("token", response.data.token);
         setToken(token);
+        setIsLogged(true);
       })
       .catch((err) => {
         console.log(err);

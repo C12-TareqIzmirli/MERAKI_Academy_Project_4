@@ -72,6 +72,8 @@ const getJobById = (req, res) => {
 
   jobModel
     .findById(jobId)
+    .populate("comments", "-_id -commenter -__v")
+    .populate("category", "-_id -__v -description")
     .then((response) => {
       if (!response) {
         res.status(404).json({
