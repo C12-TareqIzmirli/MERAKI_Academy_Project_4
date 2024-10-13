@@ -10,6 +10,7 @@ import Application from "./pages/Application";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register";
 import CreateJob from "./pages/CreateJob/CreateJob";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export const userContext = createContext();
 const App = () => {

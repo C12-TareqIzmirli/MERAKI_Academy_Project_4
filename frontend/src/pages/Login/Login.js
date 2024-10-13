@@ -11,8 +11,10 @@ import {
   MDBInput,
   MDBIcon,
 } from "mdb-react-ui-kit";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
 import { userContext } from "../../App";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const { isLogged, setIsLogged } = useContext(userContext);
@@ -100,6 +102,20 @@ const Login = () => {
           </MDBCard>
         </MDBCol>
       </MDBRow>
+      
+            <GoogleLogin
+        onSuccess={(credentialResponse) => {
+          const cre = credentialResponse.credential;
+          console.log(cre);
+          
+          navigate("/");
+        }}
+        onError={() => {
+          console.log("Login Failed");
+        }}
+      />
+      ;
+
     </MDBContainer>
   );
 };

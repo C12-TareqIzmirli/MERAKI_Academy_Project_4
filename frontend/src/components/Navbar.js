@@ -17,9 +17,21 @@ import {
   MDBCollapse,
   MDBInputGroup,
 } from "mdb-react-ui-kit";
+import axios from "axios";
 
 const Navbar = () => {
+  const [name, setName] = useState();
   const [openBasic, setOpenBasic] = useState(false);
+  const serachByName = (req, res) => {
+    axios
+      .get(`http://localhost:5000/jobs/${name}`)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <MDBNavbar expand="lg" light bgColor="light">
       <MDBContainer fluid>
@@ -47,8 +59,13 @@ const Navbar = () => {
               placeholder="Type query"
               aria-label="Search"
               type="Search"
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
             />
-            <MDBBtn outline>Search</MDBBtn>
+            <MDBBtn outline onClick={serachByName}>
+              Search
+            </MDBBtn>
           </MDBInputGroup>
         </MDBCollapse>
       </MDBContainer>

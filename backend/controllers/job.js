@@ -194,7 +194,7 @@ const updateJobByPublisher = (req, res) => {
 };
 
 const getJobByName = (req, res) => {
-  const jobTitle = req.params.id;
+  const jobTitle = req.params.title;
 
   jobModel
     .find({ title: jobTitle })

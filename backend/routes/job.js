@@ -24,7 +24,7 @@ jobRouter.post("/new", authentication, authorization("CREATE_JOB"), createJob);
 jobRouter.get("/all", getAllJobs);
 jobRouter.get("/job/:id", getJobById);
 jobRouter.get("/company/:id", getJobsByCompany);
-jobRouter.get("/title/:id", getJobByName);
+jobRouter.get("/:title", getJobByName);
 jobRouter.get("/cateogry/:id", getJobsByCategory);
 jobRouter.put(
   "/job/update/:id",

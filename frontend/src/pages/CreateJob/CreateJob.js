@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { userContext } from "../../App";
 import { Link } from "react-router-dom";
 import {
@@ -14,6 +14,8 @@ import {
 
 const CreateJob = () => {
   const { token, setTokenm, setIsLogged, isLogged } = useContext(userContext);
+  const cloudRef = useRef();
+  const widgetRef = useRef();
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
   const [expiryDate, setExpiryDate] = useState();
@@ -24,6 +26,19 @@ const CreateJob = () => {
   const [company, setCompany] = useState();
   const [category, setCategory] = useState();
   const [categories, setCategories] = useState();
+
+  useEffect(() => {
+    cloudRef.current = window.cloudinary;
+    widgetRef.current = cloudRef.current.createUploadWidget(
+      {
+        cloudName: "dkfgu5kyb",
+        uploadPreset: "tjqr97xi",
+      },
+      function (err, result) {
+        console.log(result);
+      }
+    );
+  }, []);
 
   const createJob = (req, res) => {
     axios
@@ -104,12 +119,16 @@ const CreateJob = () => {
             }}
           />
 
-          <input
-            type="file"
-            onChange={(e) => {
-              setImage(e.target.value);
+          <MDBInput
+            wrapperClass="mb-4"
+            label="Image"
+            size="lg"
+            id="form2"
+            type="Image"
+            onClick={() => {
+              widgetRef.current.open();
             }}
-          ></input>
+          />
           <MDBInput
             wrapperClass="mb-4"
             label="Comapny"
