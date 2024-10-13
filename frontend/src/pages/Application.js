@@ -8,23 +8,45 @@ const Application = () => {
   const { token, setToken } = useContext(userContext);
   // console.log(token);
   const [cv, setCv] = useState();
+  const [image, setImage] = useState("");
   const [url, setUrl] = useState("");
-  const cloudRef = useRef();
-  const widgetRef = useRef();
+  // const cloudRef = useRef();
+  // const widgetRef = useRef();
   const uploadImage = () => {
     const data = new FormData();
-    data.append("file", cv);
+    data.append("file", image);
     data.append("upload_preset", "fx7zcl7e");
     data.append("cloud_name", "dkfgu5kyb");
-    fetch("  https://api.cloudinary.com/v1_1/dkfgu5kyb/image/upload", {
-      method: "post",
-      body: data,
-    })
-      .then((resp) => {
-        console.log(resp);
-      })
+    fetch(
+      "  https://api.cloudinary.com/v1_1/dkfgu5kyb/image/upload",
+      {
+        method: "post",
+        body: data,
+      },
+      {
+        formart: "pdf",
+      }
+    )
+      .then((resp) => resp.json())
       .then((data) => {
         setUrl(data.url);
+        axios
+          .post(
+            `http://localhost:5000/apps/apply/${jobId}`,
+            { attatchments: data.url },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          )
+          .then((response) => {
+            console.log(response);
+            console.log("applied");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => console.log(err));
   };
@@ -63,7 +85,10 @@ const Application = () => {
   return (
     <div>
       <div>
-        <input type="file" onChange={(e) => setCv(e.target.files[0])}></input>
+        <input
+          type="file"
+          onChange={(e) => setImage(e.target.files[0])}
+        ></input>
         <button onClick={uploadImage}>Upload</button>
       </div>
       <div>

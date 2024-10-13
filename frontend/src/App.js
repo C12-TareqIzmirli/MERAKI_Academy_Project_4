@@ -11,6 +11,7 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register";
 import CreateJob from "./pages/CreateJob/CreateJob";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import Search from "./pages/Search";
 
 export const userContext = createContext();
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="register" element={<Register />} />
           <Route path="createJob" element={<CreateJob />} />
           <Route path="/details/:jobId" element={<Details />} />
+          <Route path="/search/:title" element={<Search />} />
           <Route path="/application/:jobId" element={<Application />} />
         </Routes>
       </div>

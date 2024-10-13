@@ -1,44 +1,44 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { Navigate, redirect, useNavigate } from "react-router-dom";
 import {
   MDBContainer,
   MDBNavbar,
   MDBNavbarBrand,
-  MDBNavbarToggler,
-  MDBIcon,
   MDBNavbarNav,
   MDBNavbarItem,
   MDBNavbarLink,
   MDBBtn,
-  MDBDropdown,
-  MDBDropdownToggle,
-  MDBDropdownMenu,
-  MDBDropdownItem,
   MDBCollapse,
   MDBInputGroup,
 } from "mdb-react-ui-kit";
 import axios from "axios";
+import Search from "../pages/Search";
 
 const Navbar = () => {
-  const [name, setName] = useState();
+  const [jobs, setJobs] = useState();
+  const navigate = useNavigate();
   const [openBasic, setOpenBasic] = useState(false);
+  const [name, setName] = useState();
   const serachByName = (req, res) => {
     axios
       .get(`http://localhost:5000/jobs/${name}`)
       .then((response) => {
         console.log(response);
+        setJobs(response.data.jobs);
+        navigate("/search");
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
   return (
     <MDBNavbar expand="lg" light bgColor="light">
-      <MDBContainer fluid>
+      <MDBContainer>
         <MDBNavbarBrand>
           <Link to="/">Wazfine</Link>
         </MDBNavbarBrand>
-
         <MDBCollapse navbar open={openBasic}>
           <MDBNavbarNav className="mr-auto mb-2 mb-lg-0">
             <MDBNavbarItem>
@@ -51,22 +51,10 @@ const Navbar = () => {
                 <Link to="/about">About Us</Link>
               </MDBNavbarLink>
             </MDBNavbarItem>
+            <MDBNavbarItem>
+              <Search />
+            </MDBNavbarItem>
           </MDBNavbarNav>
-
-          <MDBInputGroup righ tag="form" className="d-flex w-auto mb-3">
-            <input
-              className="form-control"
-              placeholder="Type query"
-              aria-label="Search"
-              type="Search"
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
-            <MDBBtn outline onClick={serachByName}>
-              Search
-            </MDBBtn>
-          </MDBInputGroup>
         </MDBCollapse>
       </MDBContainer>
     </MDBNavbar>
