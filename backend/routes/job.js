@@ -11,6 +11,7 @@ const {
   updateJobByPublisher,
   getJobByName,
   deleteJobById,
+  GetJobByPublisher,
   changeStatus,
 } = require("../controllers/job");
 const {
@@ -26,6 +27,7 @@ jobRouter.get("/job/:id", getJobById);
 jobRouter.get("/company/:id", getJobsByCompany);
 jobRouter.get("/:title", getJobByName);
 jobRouter.get("/cateogry/:id", getJobsByCategory);
+jobRouter.get("/publisher/:id", GetJobByPublisher);
 jobRouter.put(
   "/job/update/:id",
   authentication,

@@ -2,7 +2,7 @@ const { response } = require("express");
 const jobModel = require("../models/jobSchema");
 
 const createJob = (req, res) => {
-  const { title, description, expiryDate, image, company, status, category } =
+  const { title, description, expiryDate, company, status, category } =
     req.body;
   const publisher = req.token.userId;
   //   const date = new Date();
@@ -10,7 +10,7 @@ const createJob = (req, res) => {
     title,
     description,
     expiryDate,
-    image,
+
     company,
     status,
     publisher: publisher,
@@ -193,6 +193,36 @@ const updateJobByPublisher = (req, res) => {
     });
 };
 
+const GetJobByPublisher = (req, res) => {
+  const publisher = req.params.id;
+
+  jobModel
+    .find({ publisher: publisher })
+    .then((response) => {
+      if (!response) {
+        console.log(response);
+
+        res.status(404).json({
+          success: false,
+          message: "No job for that publisher",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Job Found for that publisher",
+          job: response,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: err.message,
+      });
+    });
+};
+
 const getJobByName = (req, res) => {
   const jobTitle = req.params.title;
 
@@ -285,4 +315,5 @@ module.exports = {
   getJobByName,
   deleteJobById,
   changeStatus,
+  GetJobByPublisher,
 };

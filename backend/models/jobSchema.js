@@ -5,7 +5,7 @@ const jobSchema = new mongoose.Schema({
   description: { type: String, required: true },
   date: { type: Date, default: Date.now, required: true },
   expiryDate: { type: Date },
-  image: { type: String },
+
   company: { type: String },
   status: {
     type: String,

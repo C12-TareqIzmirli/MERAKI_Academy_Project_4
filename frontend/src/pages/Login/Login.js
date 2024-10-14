@@ -30,10 +30,11 @@ const Login = () => {
         password: password,
       })
       .then((response) => {
-        console.log(response.data);
+        console.log(response);
         const token = localStorage.setItem("token", response.data.token);
         setToken(token);
-        setIsLogged(true);
+        const isLogged = localStorage.setItem("isLogged", true);
+        setIsLogged(isLogged);
         navigate("/");
       })
       .catch((err) => {
@@ -77,6 +78,17 @@ const Login = () => {
                 }}
                 required
               />
+              <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  const cre = credentialResponse.credential;
+                  console.log(cre);
+
+                  navigate("/");
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+              />
 
               <p className="small mb-3 pb-lg-2">
                 <a class="text-white-50" href="#!">
@@ -102,20 +114,7 @@ const Login = () => {
           </MDBCard>
         </MDBCol>
       </MDBRow>
-      
-            <GoogleLogin
-        onSuccess={(credentialResponse) => {
-          const cre = credentialResponse.credential;
-          console.log(cre);
-          
-          navigate("/");
-        }}
-        onError={() => {
-          console.log("Login Failed");
-        }}
-      />
       ;
-
     </MDBContainer>
   );
 };

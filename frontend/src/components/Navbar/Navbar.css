@@ -1,0 +1,33 @@
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Push left and right sections apart */
+    align-items: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border-radius: 4px;
+  }
+  
+  .nav-left a,
+  .nav-right a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+  }
+  
+  .nav-right {
+    margin-left: auto; /* Pushes the nav-right div to the far right */
+  }
+  
+  .login-btn {
+    background-color: #555;
+    padding: 8px 15px;
+    border-radius: 5px;
+  }
+  
+  .login-btn:hover {
+    background-color: #777;
+  }
+  .logo{
+    font-size: 25px;
+  }

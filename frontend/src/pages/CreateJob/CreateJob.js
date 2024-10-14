@@ -14,64 +14,14 @@ import {
 
 const CreateJob = () => {
   const { token, setTokenm, setIsLogged, isLogged } = useContext(userContext);
-  const cloudRef = useRef();
-  const widgetRef = useRef();
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
   const [expiryDate, setExpiryDate] = useState();
   const [status, setStatus] = useState("Open");
-  const [url, setUrl] = useState("");
-  const [image, setImage] = useState(
-    "https://upload.wikimedia.org/wikipedia/commons/7/72/Default-welcomer.png"
-  );
   const [company, setCompany] = useState();
   const [category, setCategory] = useState();
   //const [categories, setCategories] = useState();
 
-  const uploadImage = () => {
-    const data = new FormData();
-    data.append("file", image);
-    data.append("upload_preset", "fx7zcl7e");
-    data.append("cloud_name", "dkfgu5kyb");
-    fetch("  https://api.cloudinary.com/v1_1/dkfgu5kyb/image/upload", {
-      method: "post",
-      body: data,
-    })
-      .then((resp) => {
-        resp.json();
-        console.log(resp);
-      })
-      .then((data) => {
-        console.log(data);
-
-        setUrl(data.url);
-        axios
-          .post(
-            "http://localhost:5000/jobs/new",
-            {
-              title: title,
-              description: description,
-              expiryDate: expiryDate,
-              image: data.url,
-              company: company,
-              category: category,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          )
-          .then((response) => {
-            console.log(response);
-            console.log("Created");
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => console.log(err));
-  };
   const createJob = (req, res) => {
     axios
       .post(
@@ -80,7 +30,6 @@ const CreateJob = () => {
           title: title,
           description: description,
           expiryDate: expiryDate,
-          image: url,
           company: company,
           category: category,
         },
@@ -139,10 +88,6 @@ const CreateJob = () => {
             }}
           />
 
-          <input
-            type="file"
-            onChange={(e) => setImage(e.target.files[0])}
-          ></input>
           <MDBInput
             wrapperClass="mb-4"
             label="Comapny"
@@ -165,7 +110,7 @@ const CreateJob = () => {
               <option value={"67002195b01d8bdca830505f"}>Developer</option>
             </select>
           </div>
-          <Link className="btn btn-primary btnsignup" onClick={uploadImage}>
+          <Link className="btn btn-primary btnsignup" onClick={createJob}>
             Register
           </Link>
         </MDBCardBody>

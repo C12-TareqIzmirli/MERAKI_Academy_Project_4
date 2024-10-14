@@ -40,13 +40,13 @@ const Search = () => {
       <div>
         <p>{j.title}</p>
         <p>{j.description}</p>
+        <img src={j.image} />
       </div>
     );
   });
 
   return (
     <div>
-      {" "}
       <MDBInputGroup righ className="d-flex w-auto mb-3">
         <input
           className="form-control"

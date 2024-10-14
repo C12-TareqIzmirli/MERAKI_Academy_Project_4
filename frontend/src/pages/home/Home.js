@@ -28,46 +28,23 @@ const Home = () => {
 
   const job = jobs.map((item) => {
     return (
-      // <div className="jobCard">
-      //   <div className="">
-      //     <img src={item.image} />
-      //     <h4>{item.title}</h4>
-      //     <p>{item.company}</p>
-      //     <p>{item.date}</p>
-      //     <Link to={`/details/${item._id}`}>More Details</Link>
-      //   </div>
-      // </div>
-
-      <MDBCard className="Container">
-        <MDBRipple
-          rippleColor="light"
-          rippleTag="div"
-          className="bg-image hover-overlay"
-        >
-          <MDBCardImage src={item.image} fluid alt="..." />
-          <a>
-            <div
-              className="mask"
-              style={{ backgroundColor: "rgba(251, 251, 251, 0.15)" }}
-            ></div>
-          </a>
-        </MDBRipple>
-        <MDBCardBody>
-          <MDBCardTitle>{item.title}</MDBCardTitle>
-          <MDBCardTitle>{item.description}</MDBCardTitle>
-
+      <div className="product-card" key={item._id}>
+        <div className="product-info">
+          <h2>{item.title}</h2>
+          <p>Comapny: {item.company}</p>
+          <p>Expiry Date{item.expiryDate}</p>
           <Link className="btn btn-primary" to={`/details/${item._id}`}>
             More Details
           </Link>
-        </MDBCardBody>
-      </MDBCard>
+        </div>
+      </div>
     );
   });
   return (
     <div>
-      <h1>Home Page</h1>
+      <h1>Jobs</h1>
 
-      <div className="cardContainer">{job}</div>
+      <div className="container">{job}</div>
     </div>
   );
 };
