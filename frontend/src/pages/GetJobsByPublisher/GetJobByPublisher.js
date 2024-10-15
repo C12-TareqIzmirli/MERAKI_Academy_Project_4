@@ -14,6 +14,8 @@ function GetJobByPublisher() {
   console.log(userId);
 
   const updateJob = (index, jobId) => {
+    console.log(jobId);
+
     axios
       .put(
         `http://localhost:5000/jobs/update/${jobId}`,
@@ -31,6 +33,15 @@ function GetJobByPublisher() {
       .then((response) => {
         console.log(response);
         setIsUpdateActive(true);
+        // const newJobArr = [...jobs];
+        // newJobArr[index] = {};
+       let  updatedJob = jobs.map((elem,i)=>{
+            if(elem._id ==jobId ){
+                elem = response.data.job
+            }
+            return elem
+        })
+        setJobs(updatedJob);
       })
       .catch((err) => {
         console.log(err);
@@ -50,10 +61,6 @@ function GetJobByPublisher() {
           return item._id !== jobId;
         });
         setJobs(newarr);
-
-        // const copy = [...jobs];
-        // copy[index] = {};
-        // setJobs(copy);
       })
       .catch((err) => {
         console.log(err);
@@ -86,6 +93,7 @@ function GetJobByPublisher() {
         <button
           className="btn btn-success"
           onClick={() => {
+            console.log(index, item._id);
             updateJob(index, item._id);
           }}
         >
@@ -94,27 +102,28 @@ function GetJobByPublisher() {
         <button className="btn btn-danger" onClick={() => deleteJob(item._id)}>
           Delete
         </button>
-
-        <div>
-          <input
-            placeholder="Change Title"
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
-          />
-          <input
-            placeholder="Change Description"
-            onChange={(e) => {
-              setDescription(e.target.value);
-            }}
-          />
-          <input
-            type="date"
-            onChange={(e) => {
-              setExpiryDate(e.target.value);
-            }}
-          />
-        </div>
+        {isUpdateActive && (
+          <div>
+            <input
+              placeholder="Change Title"
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+            />
+            <input
+              placeholder="Change Description"
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+            />
+            <input
+              type="date"
+              onChange={(e) => {
+                setExpiryDate(e.target.value);
+              }}
+            />
+          </div>
+        )}
       </div>
     );
   });

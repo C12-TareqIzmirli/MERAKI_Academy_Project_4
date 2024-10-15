@@ -61,4 +61,5 @@ const changeAppStatus = (req, res) => {
       });
     });
 };
+const getaplvforthisjob = (req, res) => {};
 module.exports = { applyForJob, changeAppStatus };

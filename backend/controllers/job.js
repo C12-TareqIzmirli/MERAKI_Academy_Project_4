@@ -164,13 +164,12 @@ const updateJobByPublisher = (req, res) => {
   const { title, description, expiryDate } = req.body;
 
   jobModel
-    .findByIdAndUpdate({
+    .findByIdAndUpdate({_id: jobId,},{
       title: title,
       description: description,
       expiryDate: expiryDate,
-      _id: jobId,
       publisher: publisher,
-    })
+    },{new:true})
     .then((response) => {
       if (!response) {
         res.status(404).json({
