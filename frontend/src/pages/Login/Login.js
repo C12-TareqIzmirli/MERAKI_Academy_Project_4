@@ -9,18 +9,19 @@ import {
   MDBCard,
   MDBCardBody,
   MDBInput,
-  MDBIcon,
 } from "mdb-react-ui-kit";
-import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { userContext } from "../../App";
 import { GoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
-  const { isLogged, setIsLogged } = useContext(userContext);
+  const { isLogged, setIsLogged, role, setRole, userId, setUserId } =
+    useContext(userContext);
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
   const [token, setToken] = useState();
+
+  //const [userId, setUserId] = useState();
   const navigate = useNavigate();
 
   const signIn = () => {
@@ -33,8 +34,14 @@ const Login = () => {
         console.log(response);
         const token = localStorage.setItem("token", response.data.token);
         setToken(token);
-        const isLogged = localStorage.setItem("isLogged", true);
-        setIsLogged(isLogged);
+        localStorage.setItem("user_id", response.data.user._id);
+        localStorage.setItem("role", response.data.user.role._id);
+        setUserId(response.data.user._id);
+        setRole(response.data.user.role._id);
+
+        localStorage.setItem("isLogged", true);
+
+        setIsLogged(true);
         navigate("/");
       })
       .catch((err) => {

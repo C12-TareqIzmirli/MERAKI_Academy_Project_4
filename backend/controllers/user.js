@@ -23,8 +23,6 @@ const register = (req, res) => {
     })
     .catch((err) => {
       if (err.keyPattern) {
-        
-
         return res.status(409).json({
           success: false,
           message: `The email already exists`,
@@ -44,7 +42,7 @@ const login = (req, res) => {
   const email = req.body.email.toLowerCase();
   usersModel
     .findOne({ email })
-    .populate("role", "-_id -__v")
+    .populate("role", "-__v")
     .then(async (result) => {
       if (!result) {
         return res.status(403).json({
@@ -76,6 +74,7 @@ const login = (req, res) => {
           success: true,
           message: `Valid login credentials`,
           token: token,
+          user: result,
         });
       } catch (error) {
         throw new Error(error.message);

@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 import "./App.css";
 
 import Home from "./pages/home/Home";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import About from "./pages/About";
 import Details from "./pages/Details/Details";
 import Navbar from "./components/Navbar/Navbar";
@@ -18,8 +18,21 @@ const App = () => {
   // const navigate = useNavigate();
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isLogged, setIsLogged] = useState(localStorage.getItem("isLogged"));
+  const [role, setRole] = useState(localStorage.getItem("role"));
+  const [userId, setUserId] = useState(localStorage.getItem("user_id"));
   return (
-    <userContext.Provider value={{ token, setToken, isLogged, setIsLogged }}>
+    <userContext.Provider
+      value={{
+        token,
+        setToken,
+        isLogged,
+        setIsLogged,
+        role,
+        setRole,
+        userId,
+        setUserId,
+      }}
+    >
       <div>
         <Navbar />
 

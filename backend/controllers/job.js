@@ -161,14 +161,15 @@ const updateJobByPublisher = (req, res) => {
   const publisher = req.token.userId;
   const jobId = req.params.id;
 
-  const { title, description } = req.body;
+  const { title, description, expiryDate } = req.body;
 
   jobModel
     .findByIdAndUpdate({
-      jobId,
-      publisher: publisher,
       title: title,
       description: description,
+      expiryDate: expiryDate,
+      _id: jobId,
+      publisher: publisher,
     })
     .then((response) => {
       if (!response) {
@@ -255,7 +256,7 @@ const deleteJobById = (req, res) => {
   const jobId = req.params.id;
   const publisher = req.token.userId;
   jobModel
-    .findByIdAndDelete({ jobId, publisher: publisher })
+    .findByIdAndDelete({ _id: jobId, publisher: publisher })
     .then((response) => {
       if (!response) {
         res.status(404).json({

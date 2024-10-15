@@ -10,6 +10,7 @@ import {
   MDBCheckbox,
 } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
+import { ROLES } from "../components/Navbar/Navbar";
 
 const Register = () => {
   const [userName, setUserName] = useState();
@@ -17,10 +18,10 @@ const Register = () => {
   const [email, setEmail] = useState();
   const [phone, setPhone] = useState();
   const [role, setRole] = useState();
+  const [userId, setUserId] = useState();
 
   console.log(role);
 
-  
   const signUp = () => {
     axios
       .post("http://localhost:5000/users/register", {
@@ -32,6 +33,12 @@ const Register = () => {
       })
       .then((response) => {
         console.log(response.data);
+        const role = response.data.user.role;
+        const userId = response.data.user._id;
+        localStorage.setItem("user_id", userId);
+        localStorage.setItem("role", role);
+        setUserId(response.data.user._id);
+        setRole(response.data.user.role);
       })
       .catch((err) => {
         console.log(err);
@@ -97,8 +104,8 @@ const Register = () => {
                 setRole(e.target.value);
               }}
             >
-              <option value={"6702ba9b793c1b98a784ba10"}>Publisher</option>
-              <option value={"66ff03d084b9d7fcbdfb1f1f"}>User</option>
+              <option value={ROLES.publisher}>Publisher</option>
+              <option value={ROLES.user}>User</option>
             </select>
           </div>
 

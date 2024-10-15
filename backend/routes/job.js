@@ -29,7 +29,7 @@ jobRouter.get("/:title", getJobByName);
 jobRouter.get("/cateogry/:id", getJobsByCategory);
 jobRouter.get("/publisher/:id", GetJobByPublisher);
 jobRouter.put(
-  "/job/update/:id",
+  "/update/:id",
   authentication,
   authorization("Update_Job"),
   updateJobByPublisher
