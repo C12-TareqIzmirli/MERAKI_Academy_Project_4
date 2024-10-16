@@ -1,17 +1,17 @@
 import axios from "axios";
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { userContext } from "../App";
+import { userContext } from "../../App";
 
+import "./Application.css";
 const Application = () => {
   const { jobId } = useParams();
-  const { token, setToken } = useContext(userContext);
-  // console.log(token);
+  const { token, setToken, isLogged } = useContext(userContext);
   const [cv, setCv] = useState();
+  const [err, setError] = useState("");
   const [image, setImage] = useState("");
   const [url, setUrl] = useState("");
-  // const cloudRef = useRef();
-  // const widgetRef = useRef();
+
   const uploadImage = () => {
     const data = new FormData();
     data.append("file", image);
@@ -30,6 +30,9 @@ const Application = () => {
       .then((resp) => resp.json())
       .then((data) => {
         setUrl(data.url);
+        if (!isLogged) {
+          setError("Login first");
+        }
         axios
           .post(
             `http://localhost:5000/apps/apply/${jobId}`,
@@ -51,49 +54,21 @@ const Application = () => {
       .catch((err) => console.log(err));
   };
 
-  // useEffect(() => {
-  //   cloudRef.current = window.cloudinary;
-  //   widgetRef.current = cloudRef.current.createUploadWidget(
-  //     {
-  //       cloudName: "dkfgu5kyb",
-  //       uploadPreset: "tjqr97xi",
-  //     },
-  //     function (err, result) {
-  //       console.log(result);
-  //     }
-  //   );
-  // }, []);
-  const applyForJob = (req, res) => {
-    axios
-      .post(
-        `http://localhost:5000/apps/apply/${jobId}`,
-        { attatchments: cv },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response);
-        console.log("applied");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   return (
-    <div>
+    <div className="cont">
       <div>
         <input
           type="file"
           onChange={(e) => setImage(e.target.files[0])}
-        ></input>
+          name="resume"
+          accept=".pdf, .doc, .docx"
+          required
+        />
         <button onClick={uploadImage}>Upload</button>
       </div>
-      <div>
-        <h1>Uploaded image will be displayed here</h1>
-        <img src={url} />
+
+      <div className="warning">
+        <p class="modal-dialog modal-dialog-scrollable">{err}</p>
       </div>
     </div>
   );

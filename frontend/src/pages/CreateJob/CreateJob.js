@@ -12,6 +12,8 @@ import {
   MDBCheckbox,
 } from "mdb-react-ui-kit";
 
+import { DatePicker } from "antd";
+
 const CreateJob = () => {
   const { token, setTokenm, setIsLogged, isLogged } = useContext(userContext);
   const [title, setTitle] = useState();
@@ -81,13 +83,12 @@ const CreateJob = () => {
               setDescription(e.target.value);
             }}
           />
-          <input
-            type="date"
+          Expiry Date
+          <DatePicker
             onChange={(e) => {
               setExpiryDate(e.target.value);
             }}
           />
-
           <MDBInput
             wrapperClass="mb-4"
             label="Comapny"
@@ -98,7 +99,6 @@ const CreateJob = () => {
               setCompany(e.target.value);
             }}
           />
-
           <div>
             <select
               className="form-select"
@@ -111,7 +111,7 @@ const CreateJob = () => {
             </select>
           </div>
           <Link className="btn btn-primary btnsignup" onClick={createJob}>
-            Register
+            Create
           </Link>
         </MDBCardBody>
       </MDBCard>

@@ -1,3 +1,11 @@
 .contect{
     background-color: azure;
 }
+.err{
+    margin: auto;
+    background-color: red;
+    color: white;
+    font-size: large;
+    font-weight: bolder;
+    text-align: center;
+}

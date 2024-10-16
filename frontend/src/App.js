@@ -3,10 +3,10 @@ import "./App.css";
 
 import Home from "./pages/home/Home";
 import { Routes, Route } from "react-router-dom";
-import About from "./pages/About";
+import About from "./pages/Aboutus/About";
 import Details from "./pages/Details/Details";
 import Navbar from "./components/Navbar/Navbar";
-import Application from "./pages/Application";
+import Application from "./pages/Application/Application";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register";
 import CreateJob from "./pages/CreateJob/CreateJob";

@@ -15,7 +15,7 @@ const jobSchema = new mongoose.Schema({
   publisher: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
- 
+ // applicatin: [{ type: mongoose.Schema.Types.ObjectId, ref: "Application" }],
 });
 
 module.exports = mongoose.model("Job", jobSchema);

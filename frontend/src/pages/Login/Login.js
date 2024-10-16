@@ -13,6 +13,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { userContext } from "../../App";
 import { GoogleLogin } from "@react-oauth/google";
+import { useStyleRegister } from "antd/es/theme/internal";
 
 const Login = () => {
   const { isLogged, setIsLogged, role, setRole, userId, setUserId } =
@@ -20,6 +21,8 @@ const Login = () => {
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
   const [token, setToken] = useState();
+  const [error, setError] = useState("");
+  const [isError, setIsError] = useState(false);
 
   //const [userId, setUserId] = useState();
   const navigate = useNavigate();
@@ -46,6 +49,9 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err);
+        setError(err.response.data.message);
+        setIsError(true);
+        console.log(error);
       });
   };
   return (
@@ -63,6 +69,7 @@ const Login = () => {
               </p>
 
               <MDBInput
+                required="true"
                 wrapperClass="mb-4 mx-5 w-100"
                 labelClass="text-white"
                 label="Email address"
@@ -121,7 +128,7 @@ const Login = () => {
           </MDBCard>
         </MDBCol>
       </MDBRow>
-      ;
+      <div className="err">{error}</div>
     </MDBContainer>
   );
 };
