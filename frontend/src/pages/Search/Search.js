@@ -6,6 +6,7 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
+import "./Search.css";
 import {
   MDBContainer,
   MDBNavbar,
@@ -37,10 +38,15 @@ const Search = () => {
   };
   const job = jobs?.map((j) => {
     return (
-      <div>
-        <p>{j.title}</p>
-        <p>{j.description}</p>
-        <img src={j.image} />
+      <div className="product-card" key={j._id}>
+        <div className="product-info">
+          <h2>{j.title}</h2>
+          <p>Comapny: {j.company}</p>
+          <p>Expiry Date{j.expiryDate}</p>
+          <Link className="btn btn-primary" to={`/details/${j._id}`}>
+            More Details
+          </Link>
+        </div>
       </div>
     );
   });

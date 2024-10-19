@@ -2,15 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import "./home.css";
-import {
-  MDBCard,
-  MDBCardBody,
-  MDBCardTitle,
-  MDBCardText,
-  MDBCardImage,
-  MDBBtn,
-  MDBRipple,
-} from "mdb-react-ui-kit";
+
 
 const Home = () => {
   const [jobs, setJobs] = useState([]);

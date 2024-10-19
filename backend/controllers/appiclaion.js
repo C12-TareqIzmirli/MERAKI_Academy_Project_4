@@ -61,5 +61,22 @@ const changeAppStatus = (req, res) => {
       });
     });
 };
-const getaplvforthisjob = (req, res) => {};
-module.exports = { applyForJob, changeAppStatus };
+const getAppForThisJob = (req, res) => {
+  const { jobId } = req.params.id;
+
+  appllyModel
+    .findById(jobId, { applicant })
+    .then((response) => {
+      console.log(response);
+
+      res.status(200).json({
+        success: true,
+        message: `job app `,
+        applicatnt: response,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+module.exports = { applyForJob, changeAppStatus, getAppForThisJob };

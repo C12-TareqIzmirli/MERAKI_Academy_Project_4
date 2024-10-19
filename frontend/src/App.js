@@ -10,7 +10,7 @@ import Application from "./pages/Application/Application";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register";
 import CreateJob from "./pages/CreateJob/CreateJob";
-import Search from "./pages/Search";
+import Search from "./pages/Search/Search";
 import GetJobByPublisher from "./pages/GetJobsByPublisher/GetJobByPublisher";
 
 export const userContext = createContext();
