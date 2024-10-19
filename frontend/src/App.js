@@ -8,7 +8,7 @@ import Details from "./pages/Details/Details";
 import Navbar from "./components/Navbar/Navbar";
 import Application from "./pages/Application/Application";
 import Login from "./pages/Login/Login";
-import Register from "./pages/Register";
+import Register from "./pages/SignUp/Register";
 import CreateJob from "./pages/CreateJob/CreateJob";
 import Search from "./pages/Search/Search";
 import GetJobByPublisher from "./pages/GetJobsByPublisher/GetJobByPublisher";

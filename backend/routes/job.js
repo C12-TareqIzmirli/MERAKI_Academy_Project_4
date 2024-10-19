@@ -23,6 +23,7 @@ const jobRouter = express.Router();
 
 jobRouter.post("/new", authentication, authorization("CREATE_JOB"), createJob);
 jobRouter.get("/all", getAllJobs);
+
 jobRouter.get("/job/:id", getJobById);
 jobRouter.get("/company/:id", getJobsByCompany);
 jobRouter.get("/:title", getJobByName);

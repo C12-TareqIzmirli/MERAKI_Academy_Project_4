@@ -2,19 +2,25 @@ const { response } = require("express");
 const jobModel = require("../models/jobSchema");
 
 const createJob = (req, res) => {
-  const { title, description, expiryDate, company, status, category } =
-    req.body;
+  const {
+    title,
+    description,
+    expiryDate,
+    company,
+    status,
+    category,
+    applicatin,
+  } = req.body;
   const publisher = req.token.userId;
-  //   const date = new Date();
   const job = new jobModel({
     title,
     description,
     expiryDate,
-
     company,
     status,
     publisher: publisher,
     category,
+    applicatin,
   });
   console.log(job);
 
@@ -164,12 +170,16 @@ const updateJobByPublisher = (req, res) => {
   const { title, description, expiryDate } = req.body;
 
   jobModel
-    .findByIdAndUpdate({_id: jobId,},{
-      title: title,
-      description: description,
-      expiryDate: expiryDate,
-      publisher: publisher,
-    },{new:true})
+    .findByIdAndUpdate(
+      { _id: jobId },
+      {
+        title: title,
+        description: description,
+        expiryDate: expiryDate,
+        publisher: publisher,
+      },
+      { new: true }
+    )
     .then((response) => {
       if (!response) {
         res.status(404).json({

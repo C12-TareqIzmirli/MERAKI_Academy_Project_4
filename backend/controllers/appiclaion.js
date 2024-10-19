@@ -1,3 +1,4 @@
+const { response } = require("express");
 const appllyModel = require("../models/applications");
 
 const applyForJob = (req, res) => {
@@ -61,22 +62,18 @@ const changeAppStatus = (req, res) => {
       });
     });
 };
-const getAppForThisJob = (req, res) => {
-  const { jobId } = req.params.id;
 
+const getAppForThisJob = (req, res) => {
+  const jobId = req.params.id;
   appllyModel
-    .findById(jobId, { applicant })
+    .findById(jobId)
+    .populate("applicant")
     .then((response) => {
       console.log(response);
-
-      res.status(200).json({
-        success: true,
-        message: `job app `,
-        applicatnt: response,
-      });
     })
-    .catch((err) => {
-      console.log(err);
+    .catch((Err) => {
+      console.log(Err);
     });
 };
+
 module.exports = { applyForJob, changeAppStatus, getAppForThisJob };

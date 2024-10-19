@@ -7,7 +7,6 @@ import "./Application.css";
 const Application = () => {
   const { jobId } = useParams();
   const { token, setToken, isLogged } = useContext(userContext);
-  const [cv, setCv] = useState();
   const [err, setError] = useState("");
   const [image, setImage] = useState("");
   const [url, setUrl] = useState("");
@@ -44,8 +43,7 @@ const Application = () => {
             }
           )
           .then((response) => {
-            console.log(response);
-            console.log("applied");
+            setError(response.data.message);
           })
           .catch((err) => {
             console.log(err);

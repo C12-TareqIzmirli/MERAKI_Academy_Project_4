@@ -83,8 +83,9 @@ const CreateJob = () => {
               setDescription(e.target.value);
             }}
           />
-          Expiry Date
-          <DatePicker
+          Exoiry Date
+          <input
+            type="date"
             onChange={(e) => {
               setExpiryDate(e.target.value);
             }}
